@@ -14,6 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Term_Project.Models;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System.IO;
+using Term_Project.Repositories.Marble;
+using Term_Project.Repositories.Level;
+using Term_Project.Repositories.Powerup;
 
 namespace Term_Project
 {
@@ -29,6 +33,16 @@ namespace Term_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("database.json");
+            var treaterConfig = builder.Build();
+            services.Configure<DatabaseSettings>(Configuration);
+
+            services.AddTransient<IMarbleRepository, MarbleDBRepository>();
+            services.AddTransient<ILevelRepository, LevelDBRepository>();
+            services.AddTransient<IPowerupRepository, PowerupDBRepository>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -37,7 +51,7 @@ namespace Term_Project
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("IdentityContextConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
             services.AddIdentity<MIU_IdentityUser, IdentityRole>()
                 .AddRoles<IdentityRole>()

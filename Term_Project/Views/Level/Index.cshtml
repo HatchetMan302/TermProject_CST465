@@ -1,0 +1,43 @@
+﻿@model List<LevelModel>
+@{
+    ViewData["Title"] = "Levels";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Levels</h1>
+
+<form method="post" asp-action="Insert" asp-controller="Level">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col form-group">
+            <label for="LevelName" class="control-label">Level Name</label>
+            <input type="text" id="LevelName" name="LevelName" class="form-control" />
+            @Html.ValidationMessage("LevelName")
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Add New Level</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Level Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var level in Model)
+        {
+            <tr>
+                <td>@level.LevelName</td>
+                <td>
+                    <form asp-action="Delete" asp-controller="Level" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@level.ID" />
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

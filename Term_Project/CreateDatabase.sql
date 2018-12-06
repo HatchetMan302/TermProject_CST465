@@ -1,0 +1,117 @@
+/****** Object:  Table [dbo].[Marbles]    Script Date: 12/5/2018 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Marbles](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[MarbleName] [varchar](50) NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
+ CONSTRAINT [PK__Marbles__3214EC076AD2FBA5] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Levels]    Script Date: 12/5/2018 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Levels](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[LevelName] [varchar](50) NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
+ CONSTRAINT [PK__Levels__3214EC07186C04D8] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Powerups]    Script Date: 12/5/2018 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Powerups](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Powerup] [varchar](50) NOT NULL,
+	[Timestamp] [datetime] NOT NULL,
+ CONSTRAINT [PK__Powerups__3214EC07186C04D8] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+/****** MARBLE PROCEDURES ******/
+CREATE PROCEDURE Marble_GetList
+AS
+SELECT * FROM Marbles;
+GO
+
+CREATE PROCEDURE Marble_Insert
+(
+	@MarbleName varchar(50)
+)
+AS
+INSERT INTO Marbles(MarbleName)
+VALUES (@MarbleName);
+GO
+
+CREATE PROCEDURE Marble_Delete
+(
+	@ID int
+)
+AS
+DELETE FROM Marbles
+WHERE ID=@ID;
+GO
+
+/****** LEVEL PROCEDURES ******/
+CREATE PROCEDURE Level_GetList
+AS
+SELECT * FROM Levels;
+GO
+
+CREATE PROCEDURE Level_Insert
+(
+	@LevelName varchar(50)
+)
+AS
+INSERT INTO Levels(LevelName)
+VALUES (@LevelName);
+GO
+
+CREATE PROCEDURE Level_Delete
+(
+	@ID int
+)
+AS
+DELETE FROM Levels
+WHERE ID=@ID;
+GO
+
+/****** POWERUP PROCEDURES ******/
+CREATE PROCEDURE Powerup_GetList
+AS
+SELECT * FROM Powerups;
+GO
+
+CREATE PROCEDURE Powerup_Insert
+(
+	@Powerup varchar(50)
+)
+AS
+INSERT INTO Powerups(Powerup)
+VALUES (@Powerup);
+GO
+
+CREATE PROCEDURE Powerup_Delete
+(
+	@ID int
+)
+AS
+DELETE FROM Powerups
+WHERE ID=@ID;
+GO

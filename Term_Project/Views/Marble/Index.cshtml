@@ -1,0 +1,43 @@
+﻿@model List<MarbleModel>
+@{
+    ViewData["Title"] = "Marbles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Marbles</h1>
+
+<form method="post" asp-action="Insert" asp-controller="Marble">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col form-group">
+            <label for="MarbleName" class="control-label">Marble Name</label>
+            <input type="text" id="MarbleName" name="MarbleName" class="form-control" />
+            @Html.ValidationMessage("MarbleName")
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Add New Marble</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Marble Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var marble in Model)
+        {
+            <tr>
+                <td>@marble.MarbleName</td>
+                <td>
+                    <form asp-action="Delete" asp-controller="Marble" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@marble.ID" />
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

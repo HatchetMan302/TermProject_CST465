@@ -1,0 +1,43 @@
+﻿@model List<PowerupModel>
+@{
+    ViewData["Title"] = "Powerups";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Powerups</h1>
+
+<form method="post" asp-action="Insert" asp-controller="Powerup">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col form-group">
+            <label for="Powerup" class="control-label">Powerup</label>
+            <input type="text" id="Powerup" name="Powerup" class="form-control" />
+            @Html.ValidationMessage("Powerup")
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Add New Powerup</button>
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Powerup</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var powerup in Model)
+        {
+            <tr>
+                <td>@powerup.Powerup</td>
+                <td>
+                    <form asp-action="Delete" asp-controller="Powerup" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@powerup.ID" />
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
