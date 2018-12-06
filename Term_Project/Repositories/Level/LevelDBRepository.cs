@@ -13,26 +13,17 @@ namespace Term_Project.Repositories.Level
 {
     public class LevelDBRepository : ILevelRepository
     {
+        private IConfiguration Configuration;
         private DatabaseSettings databaseSettings;
-        public LevelDBRepository(IOptionsSnapshot<DatabaseSettings> config)
+        public LevelDBRepository(IOptionsSnapshot<DatabaseSettings> config, IConfiguration configuration)
         {
+            Configuration = configuration;
             databaseSettings = config.Value;
-        }
-
-        public string GetConnectionString()
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory());
-
-            var configuration = builder.Build();
-
-            return configuration.GetConnectionString("DatabaseConnection");
-
         }
 
         public void Delete(int id)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Level_Delete", connection))
                 {
@@ -49,7 +40,7 @@ namespace Term_Project.Repositories.Level
         public List<LevelModel> GetList()
         {
             List<LevelModel> levelList = new List<LevelModel>();
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Level_GetList", connection))
                 {
@@ -75,7 +66,7 @@ namespace Term_Project.Repositories.Level
 
         public void Insert(LevelModel level)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Level_Insert", connection))
                 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Term_Project.Models;
@@ -9,6 +10,7 @@ using Term_Project.Repositories.Level;
 
 namespace Term_Project.Controllers
 {
+    [Authorize]
     public class LevelController : Controller
     {
         private ILevelRepository _LevelRepo;

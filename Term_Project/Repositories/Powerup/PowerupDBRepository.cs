@@ -13,26 +13,17 @@ namespace Term_Project.Repositories.Powerup
 {
     public class PowerupDBRepository : IPowerupRepository
     {
+        private IConfiguration Configuration;
         private DatabaseSettings databaseSettings;
-        public PowerupDBRepository(IOptionsSnapshot<DatabaseSettings> config)
+        public PowerupDBRepository(IOptionsSnapshot<DatabaseSettings> config, IConfiguration configuration)
         {
+            Configuration = configuration;
             databaseSettings = config.Value;
-        }
-
-        public string GetConnectionString()
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory());
-
-            var configuration = builder.Build();
-
-            return configuration.GetConnectionString("DatabaseConnection");
-
         }
 
         public void Delete(int id)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Powerup_Delete", connection))
                 {
@@ -49,7 +40,7 @@ namespace Term_Project.Repositories.Powerup
         public List<PowerupModel> GetList()
         {
             List<PowerupModel> powerupList = new List<PowerupModel>();
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Powerup_GetList", connection))
                 {
@@ -75,7 +66,7 @@ namespace Term_Project.Repositories.Powerup
 
         public void Insert(PowerupModel powerup)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Powerup_Insert", connection))
                 {

@@ -35,9 +35,9 @@ namespace Term_Project
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("database.json");
-            var treaterConfig = builder.Build();
-            services.Configure<DatabaseSettings>(Configuration);
+                .AddJsonFile("database.json", optional: false, reloadOnChange: true);
+            var settingsConfig = builder.Build();
+            services.Configure<DatabaseSettings>(settingsConfig);
 
             services.AddTransient<IMarbleRepository, MarbleDBRepository>();
             services.AddTransient<ILevelRepository, LevelDBRepository>();

@@ -13,26 +13,17 @@ namespace Term_Project.Repositories.Marble
 {
     public class MarbleDBRepository : IMarbleRepository
     {
+        private IConfiguration Configuration { get; set; }
         private DatabaseSettings databaseSettings;
-        public MarbleDBRepository(IOptionsSnapshot<DatabaseSettings> config)
+        public MarbleDBRepository(IOptionsSnapshot<DatabaseSettings> config, IConfiguration configuration)
         {
+            Configuration = configuration;
             databaseSettings = config.Value;
-        }
-
-        public string GetConnectionString()
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory());
-
-            var configuration = builder.Build();
-
-            return configuration.GetConnectionString("DatabaseConnection");
-
         }
 
         public void Delete(int id)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Marble_Delete", connection))
                 {
@@ -49,7 +40,8 @@ namespace Term_Project.Repositories.Marble
         public List<MarbleModel> GetList()
         {
             List<MarbleModel> marbleList = new List<MarbleModel>();
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            //var connectString = ConfigurationManager.ConnectionStrings
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Marble_GetList", connection))
                 {
@@ -75,7 +67,7 @@ namespace Term_Project.Repositories.Marble
 
         public void Insert(MarbleModel marble)
         {
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(Configuration.GetConnectionString("DatabaseConnection")))
             {
                 using (SqlCommand command = new SqlCommand("Marble_Insert", connection))
                 {

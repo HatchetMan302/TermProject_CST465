@@ -56,9 +56,11 @@ namespace Term_Project.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Required]
             [Display(Name = "Username")]
             public string UserName { get; set; }
 
+            [Required]
             [Display(Name = "Favorite Marble")]
             public string FavoriteMarble { get; set; }
         }
